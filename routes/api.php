@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProjectController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +18,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::get('/projects', [ProjectController::class, 'index']);
+Route::get('/filters', function () {
+    return response()->json([
+        'projectTypes' => \App\Models\ProjectType::select('id', 'name')->get(),
+        'cities' => \App\Models\City::select('id', 'name')->get(),
+        'categories' => \App\Models\Category::select('id', 'name')->get(),
+    ]);
 });
